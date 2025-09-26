@@ -1,0 +1,433 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Agrioth</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background: #0F6408;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 56px;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 3px solid white;
+        }
+
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 3px solid white;
+        }
+
+        /* Logo container */
+        .logo-container {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-top: 56px;
+            background-color: #f8f9fa;
+        }
+
+        /* Navigation container */
+        .nav-container {
+            margin-top: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* Cards styling */
+        .stats-card {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            transition: transform 0.2s;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .border-left-primary {
+            border-left: 0.25rem solid #4e73df !important;
+            background-color: #4A8638 !important
+        }
+
+        .border-left-success {
+            border-left: 0.25rem solid #1cc88a !important;
+            background-color: #7ED957  !important
+        }
+
+        .border-left-info {
+            border-left: 0.25rem solid #36b9cc !important;
+        }
+
+        .border-left-warning {
+            border-left: 0.25rem solid #f6c23e !important;
+        }
+
+        /* Navbar top styling */
+        .navbar-dark {
+            background-color: #0F6408 !important;
+        }
+
+        .navbar-text {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .btn-outline-light {
+            color: white;
+            border-color: white;
+            font-weight: 500;
+        }
+
+        .btn-outline-light:hover {
+            background-color: white;
+            color: #0F6408;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: fixed;
+                z-index: 1000;
+                height: 100%;
+                transform: translateX(-100%);
+                padding-top: 0;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .navbar-toggler {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                z-index: 1001;
+            }
+            
+            .navbar.fixed-top {
+                margin-left: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar du haut -->
+    <nav class="navbar navbar-dark fixed-top" style="margin-left: 250px;">
+        <div class="container-fluid d-flex justify-content-end align-items-center">
+            <span class="navbar-text me-2">
+                <i class="fas fa-user me-1"></i> {{ user.username }}
+            </span>
+            <a class="btn btn-outline-light" href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt me-1"></i> Déconnexion
+            </a>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <!-- Logo container -->
+        <div class="logo-container">
+            <div class="logo-placeholder">
+                <img src="{% static 'images/LOgoo.jpg' %}" alt="Logo Agrioth" class="logo-image">
+            </div>
+            <h5 class="text-white mt-2 mb-0">Agrioth</h5>
+        </div>
+
+        <!-- Navigation container -->
+        <div class="nav-container">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link active" href="{% url 'dashboard_home' %}"><i class="fas fa-home me-2"></i> Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'user_list' %}"><i class="fas fa-users me-2"></i> Utilisateurs</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'box_list' %}"><i class="fas fa-box me-2"></i> Boxes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'subscription_list' %}"><i class="fas fa-file-invoice-dollar me-2"></i> Abonnements</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'feedback_list' %}"><i class="fas fa-comments me-2"></i> Feedbacks</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenu -->
+    <div class="main-content">
+        {% block content %}
+        <!-- Cards statistiques -->
+        <div class="row">
+            <!-- Utilisateurs -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Utilisateurs</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ user_stats.total|default:0 }}</div>
+                                <div class="mt-2">
+                                    <span class="badge bg-success">{{ user_stats.active|default:0 }} Actifs</span>
+                                    <span class="badge bg-warning">{{ user_stats.pending|default:0 }} En attente</span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'user_list' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-list me-1"></i> Voir la liste
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boxes -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Boxes</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ box_stats.total|default:0 }}</div>
+                                <div class="mt-2">
+                                    <span class="badge bg-success">{{ box_stats.active|default:0 }} Actives</span>
+                                    <span class="badge bg-secondary">{{ box_stats.inactive|default:0 }} Inactives</span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-box fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'box_list' %}" class="btn btn-success btn-sm">
+                                <i class="fas fa-list me-1"></i> Voir la liste
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abonnements -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Abonnements</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ subscription_stats.total|default:0 }}</div>
+                                <div class="mt-2">
+                                    <span class="badge bg-success">{{ subscription_stats.active|default:0 }} Actifs</span>
+                                    <span class="badge bg-warning">{{ subscription_stats.expired|default:0 }} Expirés</span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'subscription_list' %}" class="btn btn-info btn-sm">
+                                <i class="fas fa-list me-1"></i> Voir la liste
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedbacks -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Feedbacks</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ feedback_stats.total|default:0 }}</div>
+                                <div class="mt-2">
+                                    <span class="badge bg-success">{{ feedback_stats.positive|default:0 }} Positifs</span>
+                                    <span class="badge bg-danger">{{ feedback_stats.negative|default:0 }} Négatifs</span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'feedback_list' %}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-list me-1"></i> Voir la liste
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphiques -->
+        <div class="row mt-4">
+            <div class="col-lg-8 col-md-12 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white"><strong>Inscriptions par mois</strong></div>
+                    <div class="card-body"><canvas id="registrationsChart" style="max-height:320px;"></canvas></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white"><strong>Statut des utilisateurs par box</strong></div>
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <canvas id="boxesChart" style="max-width:260px; max-height:260px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const users = JSON.parse('{{ users_json|escapejs }}' || '[]');
+    const boxes = JSON.parse('{{ boxes_json|escapejs }}' || '[]');
+
+    function getLastMonths(n=12) {
+      const months = [];
+      const now = new Date();
+      for (let i = n-1; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        const label = d.toLocaleString('fr-FR', { month: 'short', year: 'numeric' });
+        months.push({key, label});
+      }
+      return months;
+    }
+
+    const months = getLastMonths(12);
+    const counts = {};
+    months.forEach(m => counts[m.key] = 0);
+
+    users.forEach(u => {
+      let d = null;
+      if (u.createdAt) {
+        d = new Date(u.createdAt);
+        if (isNaN(d)) {
+          const t = parseInt(u.createdAt);
+          if (!isNaN(t)) d = new Date(t);
+        }
+      }
+      if (d && !isNaN(d)) {
+        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        if (counts.hasOwnProperty(key)) counts[key] += 1;
+      }
+    });
+
+    const labels = months.map(m => m.label);
+    const dataValues = months.map(m => counts[m.key]);
+
+    new Chart(document.getElementById('registrationsChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Inscriptions',
+          data: dataValues,
+          backgroundColor: '#0F6408',
+          borderColor: '#0A4A06',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false }},
+        scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+      }
+    });
+
+    // Compter les boxes avec utilisateurs actifs vs inactifs
+    let activeUserCount = 0;
+    let inactiveUserCount = 0;
+
+    boxes.forEach(box => {
+      if (box.user && box.user.status) {
+        if (box.user.status === 'active') {
+          activeUserCount++;
+        } else {
+          inactiveUserCount++;
+        }
+      } else {
+        inactiveUserCount++;
+      }
+    });
+
+    new Chart(document.getElementById('boxesChart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Utilisateurs actifs', 'Utilisateurs inactifs'],
+        datasets: [{
+          data: [activeUserCount, inactiveUserCount],
+          backgroundColor: ['#28a745', '#dc3545']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+    </script>
+</body>
+</html>
