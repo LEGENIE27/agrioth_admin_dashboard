@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(135deg, #407c3a, #0F6408);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -25,24 +25,40 @@
             text-align: center;
             margin-bottom: 20px;
             font-weight: bold;
-            color: #2a5298;
+            color: #0F6408;
         }
         .btn-primary {
-            background-color: #2a5298;
+            background-color: #0F6408;
             border: none;
         }
         .btn-primary:hover {
-            background-color: #1e3c72;
+            background-color: #0F6408;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0F6408;
         }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <h2>🔐 Connexion</h2>
+        <!-- Logo Agrioth -->
+        <div class="logo-container">
+            <img src="{% static 'images/LOgoo.jpg' %}" alt="Logo Agrioth" class="logo">
+        </div>
+        
+        <h2>Connexion</h2>
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="mb-3">
-                <label class="form-label">Nom d’utilisateur</label>
+                <label class="form-label">Nom d'utilisateur</label>
                 <input type="text" name="username" class="form-control" placeholder="Votre identifiant" required>
             </div>
             <div class="mb-3">
@@ -59,4 +75,3 @@
     </div>
 </body>
 </html>
- 
