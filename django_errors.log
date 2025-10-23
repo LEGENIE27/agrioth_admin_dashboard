@@ -3210,3 +3210,5 @@ Traceback (most recent call last):
     raise new from exc
 django.template.exceptions.TemplateDoesNotExist: base.html
 ERROR 2025-09-26 09:36:54,728 basehttp "GET /dashboard/ HTTP/1.1" 500 305806
+ERROR 2025-10-11 17:58:44,381 node_api Erreur lors de la création de l'utilisateur: E11000 duplicate key error collection: agrioth.users index: phoneNumber_1 dup key: { phoneNumber: "57160501" }, full error: {'index': 0, 'code': 11000, 'errmsg': 'E11000 duplicate key error collection: agrioth.users index: phoneNumber_1 dup key: { phoneNumber: "57160501" }', 'keyPattern': {'phoneNumber': 1}, 'keyValue': {'phoneNumber': '57160501'}}
+ERROR 2025-10-11 17:59:02,298 node_api Erreur lors de la création de l'utilisateur: E11000 duplicate key error collection: agrioth.users index: phoneNumber_1 dup key: { phoneNumber: "57160501" }, full error: {'index': 0, 'code': 11000, 'errmsg': 'E11000 duplicate key error collection: agrioth.users index: phoneNumber_1 dup key: { phoneNumber: "57160501" }', 'keyPattern': {'phoneNumber': 1}, 'keyValue': {'phoneNumber': '57160501'}}
